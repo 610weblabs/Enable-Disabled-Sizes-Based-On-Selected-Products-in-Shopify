@@ -1,0 +1,124 @@
+<div class="wl610-product-atc-container">
+  <div class="wl610-product-atc" product-options-size="{{ product.options.size }}">
+  {%- unless product.has_only_default_variant -%}
+    {% if product.options.size == 1 %}
+    
+        <div class="ProductSelect-option-outer" id="ProductSelect-option-0" name="{{ product.options[0] | escape | downcase | handleize }}" data-label="{{ product.options[0] | escape | downcase | handleize }}">
+          {%- for variant in product.variants -%}
+            {% assign css_color = variant.title | split: ' ' | last | handle %}
+            <label for="ProductSelect-option-color-{{ variant.title | escape }}"
+              class="single_option variation_item"
+              optionval="{{ variant.title | escape  | downcase | handleize }}"
+              data-id="{{ variant.id }}"
+              {% if product.options[0] == 'color' or product.options[0] == 'Color' or product.options[0] == 'Colour' or product.options[0] == 'colour' %}
+                style="background-color: {{ variant.title | escape | downcase | handleize }};
+                       background-image: url( '{{ variant.title | escape | downcase | handleize | prepend: 'bgcolor-' | file_url | split: '?' | first | append: '.png' }}');
+                       background-size: cover;
+                       background-repeat: no-repeat;
+                       background-position: center center;"
+              {% endif %}>
+              <input type="radio"
+                {% if product.options[0] == 'color' or product.options[0] == 'Color' or product.options[0] == 'Colour' or product.options[0] == 'colour' %}
+                  {% if variant.image != blank %}
+                    background-image-src="{{ variant.image | img_url: 'master' }}"
+                  {% endif %}
+                {% endif %}
+                data-id="{{ variant.id }}"
+                {% unless variant.available %} disabled="disabled"{% endunless %}
+                value="{{ variant.title |escape |downcase | handleize }}"
+                data-index="option{{ forloop.index }}"
+                name="{{ product.options[0] | escape | downcase | handleize }}"
+                id="ProductSelect-option-{{ product.options[0] | escape | downcase | handleize }}-{{ variant.title | escape }}"
+                class="variation_item">
+                <span class="ProductSelect-option-label">
+                  {{ variant.title }}
+                </span>
+            </label>
+          {%- endfor -%}
+        </div>
+    
+    {% else %}
+    {%- for option in product.options_with_values -%}
+  
+        <div class="ProductSelect-option-outer" id="ProductSelect-option-{{ forloop.index0 }}" name="{{ option.name | handleize }}" data-label="{{ option.name | escape | handleize }}">
+          {%- for value in option.values -%}
+            {% assign css_color = value | split: ' ' | last | handle %}
+            <!-- Check to see if there's a product size option. If there is a size, check to see if there's any availble for purchase. If not, set the variat control in a "disabled" state. -->
+            {%- assign variant_label_state = true -%}
+  
+            {%- if product.options.size == 1 -%}
+              {%- unless product.variants[forloop.index0].available -%}
+                {%- assign variant_label_state = false -%}
+              {%- endunless -%}
+            {%- endif -%}
+  
+            <label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}"
+              class="single_option"
+              optionval="{{ value | escape  | downcase | handleize }}"
+              {%- if option.name == 'color' or option.name == 'Color' or option.name == 'Colour' or option.name == 'colour' -%}
+                style="
+                       background-image: url( '{{ value | escape | downcase | handleize | prepend: 'bgcolor-' | file_url | split: '?' | first | append: '.png' }}');
+                       background-size: cover;
+                       background-repeat: no-repeat;
+                       background-position: center center;"
+              {%- endif -%}>
+              <input type="radio"
+                {% if option.name == 'color' or option.name == 'Color' or option.name == 'Colour' or option.name == 'colour' %}
+                  {% for variant in product.variants %}
+                    {% if variant.image != blank and variant.title contains value %}
+                      background-image-src="{{ variant.image | img_url: 'master' }}"
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if forloop.first  %} checked="checked"{% endif %}
+                {% unless variant_label_state %} disabled="disabled"{% endunless %}
+                value="{{ value |escape |downcase | handleize }}"
+                data-index="option{{ forloop.index }}"
+                name="{{ option.name | handleize }}"
+                id="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}">
+                <span class="ProductSelect-option-label">
+                  {{ value | escape }}
+                </span>
+            </label>
+          {%- endfor -%}
+        </div>
+  
+    {%- endfor -%}
+  {% endif %}
+  {%- endunless -%}
+  </div>
+  <div class="all-var variations-group-custom hide hidden" hide hidden>
+     {% for variant in product.variants %}
+    <input variantcheck="avail"
+      type="radio"
+      varid="{{ variant.id }}"
+      value="{{ variant.id }}"
+      data-id="{{ variant.id }}"
+      class="{{ variant.title | downcase | handleize }} variation_item"
+      {% if forloop.first %} checked="checked" {% endif %}
+      {% if variant.option1 %} option1="{{ variant.option1 | downcase | handleize }}" {% endif %}
+      {% if variant.option1 %} option2="{{ variant.option2 | downcase | handleize }}" {% endif %}
+      {% if variant.option3 %} option3="{{ variant.option3 | downcase | handleize }}" {% endif %}
+      {% if variant.available %} ariantcheck="available" {% else %} ariantcheck="not-available" {% endif %}> - {{ variant.title }} <br>
+     {% endfor %}
+  </div>
+  <div class="selected-final-variant-id hide hiddenn" id="selected-final-variant-id" hide hiddenn>
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" />
+  </div>
+  {% comment %}
+  <select name="id" id="ProductSelect-{{ section.id }}" class="product-form__variants all-variants hide hidden" hide hidden style="display: none;">
+  {% for variant in product.variants %}
+    {% if variant.available %}
+      <option ariantcheck="available" class="{{ variant.title | downcase | handleize }}" option1="{{ variant.option1 | downcase | handleize }}" option2="{{ variant.option2 | downcase | handleize }}" option3="{{ variant.option3 | downcase | handleize }}" varid="{{ variant.id }}"
+       {% if forloop.first %} selected="selected" {% endif %} value="{{ variant.id }}"
+        >
+        {{ variant.title }}
+      </option>
+    {% else %}
+      <option ariantcheck="not-available" class="{{ variant.title | downcase | handleize }}" option1="{{ variant.option1 | downcase | handleize }}" option2="{{ variant.option2 | downcase | handleize }}" option3="{{ variant.option3 | downcase | handleize }}" varid="{{ variant.id }}" disabled="disabled"
+        >{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+    {% endif %}
+  {% endfor %}
+  </select>
+ {% endcomment %}
+</div>

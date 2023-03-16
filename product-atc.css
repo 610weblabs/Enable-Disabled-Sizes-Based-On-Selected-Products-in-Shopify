@@ -1,0 +1,164 @@
+.ProductSelect-option-outer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+.ProductSelect-option-outer[data-label="color"] span {
+  display: none;
+}
+.ProductSelect-option-outer label {
+  background: transparent;
+  padding: initial;
+  display: inline-block;
+  width: 25px;
+  border-radius: 100%;
+  height: 25px;
+  position: relative;
+}
+.ProductSelect-option-outer input {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  top: 0;
+  z-index: 999;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.ProductSelect-option-outer input + span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  text-align: center;
+  line-height: 1;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+.ProductSelect-option-outer label.active {
+  border-color: #000000;
+}
+.ProductSelect-option-outer label.active:before {
+  padding: initial;
+  display: inline-block;
+  width: 33px;
+  border-radius: 100%;
+  height: 33px;
+  position: absolute;
+  content: ' ';
+  left: -5px;
+  top: 0px;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  border: 1px solid #000000;
+}
+.ProductSelect-option-outer[data-label=color] label {
+  border: 1px solid #f3ecec;
+}
+.ProductSelect-option-outer[data-label=size] label.active:before {
+  left: -4px;
+}
+.ProductSelect-option-outer[data-label=size] label.active:before {
+  display: none !important;
+}
+.ProductSelect-option-outer[data-label=size] label {
+  border: 1px solid;
+}
+.ProductSelect-option-outer[data-label=size] label.active, .ProductSelect-option-outer[data-label=size] label.active span {
+  background: #000000;
+  color: #ffffff;
+  border-radius: 100%;
+}
+.ProductSelect-option-outer[data-label=size] label {
+  width: 30px;
+  height: 30px;
+}
+.wl610-product-atc .ProductSelect-option-outer[data-label="color"] {
+  padding-left: 5px;
+}
+.ProductSelect-option-outer label.unavailable:before,
+.ProductSelect-option-outer label.inactive:before {
+  padding: initial;
+  display: inline-block;
+  width: 33px;
+  border-radius: 100%;
+  height: 33px;
+  position: absolute;
+  content: " ";
+  left: -5px;
+  top: 0px;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  border: 1px solid #000000;
+}
+.ProductSelect-option-outer label.unavailable:after, 
+.ProductSelect-option-outer label.inactive:after {
+  content: ""!important;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  background-image: url(https://cdn.shopify.com/s/files/1/1195/0530/files/sold-out.png?v=1678882798);
+  background-size: 30px 30px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 100%;
+}
+.ProductSelect-option-outer[data-label="color"] label.inactive:after {
+  width: 30px;
+  height: 30px;
+  top: -3px;
+  left: -3px;
+}
+.ProductSelect-option-outer label.unavailable,
+.ProductSelect-option-outer label.inactive {
+  opacity: .5;
+  pointer-events: none;
+}
+.ProductSelect-option-outer[data-label="size"] .single_option.inactive {
+  width: 30px;
+  height: 30px;
+}
+.ProductSelect-option-outer[data-label="size"] .single_option.inactive span, .ProductSelect-option-outer[data-label="size"] .single_option.inactive input {
+  border-color: unset;
+}
+.ProductSelect-option-outer[data-label="size"] .single_option.inactive {
+  border-color: unset;
+}
+.ProductSelect-option-outer[data-label="size"] .single_option.inactive::before {
+  border-color: transparent;
+}
+.wl610-product-atc {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+}
+.wl610-product-atc .ProductSelect-option-outer[data-label=color] {
+  order: 1;
+  padding: 0;
+}
+.wl610-product-atc .ProductSelect-option-outer[data-label=size] {
+  order: 2;
+}
+.wl610-product-atc .ProductSelect-option-outer {
+  order: 3;
+}
